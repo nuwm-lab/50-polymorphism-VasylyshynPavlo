@@ -7,9 +7,17 @@ namespace LabWork
     // Необхідно змінювати і дописувати код лише в цьому проекті
     // Відео-інструкції щодо роботи з github можна переглянути 
     // за посиланням https://www.youtube.com/@ViktorZhukovskyy/videos 
-    
-    using System;
 
+    static public class Randomizer
+    {
+        private static Random _random = new Random();
+        
+        static public int Next(int min, int max)
+        {
+            return _random.Next(min, max);
+        }
+    }
+    
     class Matrix2D
     {
         protected const int Rows = 3;
@@ -31,10 +39,9 @@ namespace LabWork
 
         public virtual void InputRandom()
         {
-            Random rand = new Random();
             for (int i = 0; i < Rows; i++)
             for (int j = 0; j < Cols; j++)
-                matrix[i, j] = rand.Next(0, 100);
+                matrix[i, j] = Randomizer.Next(0, 100);
         }
 
         public virtual int MinElement()
@@ -77,11 +84,10 @@ namespace LabWork
 
         public override void InputRandom()
         {
-            Random rand = new Random();
             for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
             for (int k = 0; k < 3; k++)
-                matrix3D[i, j, k] = rand.Next(0, 100);
+                matrix3D[i, j, k] = Randomizer.Next(0, 100);
         }
 
         public override int MinElement()
@@ -114,25 +120,28 @@ namespace LabWork
     
     class Program
     {
+        static void ShowMin(Matrix2D matrix)
+        {
+            Console.WriteLine("Minimum element = " + matrix.MinElement());
+        }
+
         static void Main(string[] args)
         {
-            Matrix2D matrix;
+            Matrix2D matrix2D = new Matrix2D();
+            Matrix3D matrix3D = new Matrix3D();
 
-            Console.WriteLine("Select matrix type: 0 - 2D, 1 - 3D");
-            if (!int.TryParse(Console.ReadLine(), out int userChoose)) Console.WriteLine("You have entered an invalid choice.");
-            
-            matrix = userChoose == 0 ? new Matrix2D() : new Matrix3D();
+            matrix2D.InputRandom();
+            matrix3D.InputRandom();
 
-            Console.WriteLine("Select matrix input method: 0 - by keyboard, 1 - random numbers");
-            var inputChoice = Convert.ToInt32(Console.ReadLine());
+            matrix2D.Show();
+            matrix3D.Show();
 
-            if (inputChoice == 0)
-                matrix.InputFromKeyboard();
-            else
-                matrix.InputRandom();
+            Console.WriteLine("Minimum in 2D matrix: " + matrix2D.MinElement());
+            Console.WriteLine("Minimum in 3D matrix: " + matrix3D.MinElement());
 
-            matrix.Show();
-            Console.WriteLine("Minimum = " + matrix.MinElement());
+            Console.WriteLine("\nDemonstration of polymorphism:");
+            ShowMin(matrix2D); 
+            ShowMin(matrix3D);
         }
     }
 }
