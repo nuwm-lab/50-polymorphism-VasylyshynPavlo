@@ -40,7 +40,7 @@ namespace LabWork
                             _matrix[i, j] = value;
                             break;
                         }
-                        Console.WriteLine("Невірний ввід! Будь ласка, введіть ціле число.");
+                        Console.WriteLine("Invalid input! Enter integer and try again.");
                     }
                 }
             }
@@ -95,7 +95,7 @@ namespace LabWork
                         _matrix3D[i, j, k] = value;
                         break;
                     }
-                    Console.WriteLine("Невірний ввід! Будь ласка, введіть ціле число.");
+                    Console.WriteLine("Invalid input! Enter integer and try again.");
                 }
             }
         }
