@@ -8,11 +8,11 @@ namespace LabWork
     // Відео-інструкції щодо роботи з github можна переглянути 
     // за посиланням https://www.youtube.com/@ViktorZhukovskyy/videos 
 
-    static public class Randomizer
+    public static class Randomizer
     {
         private static Random _random = new Random();
         
-        static public int Next(int min, int max)
+        public static int Next(int min, int max)
         {
             return _random.Next(min, max);
         }
@@ -20,19 +20,28 @@ namespace LabWork
     
     class Matrix2D
     {
-        protected const int Rows = 3;
-        protected const int Cols = 3;
-        protected int[,] matrix = new int[Rows, Cols];
+        private const int Rows = 3;
+        private const int Cols = 3;
+        private readonly int[,] _matrix = new int[Rows, Cols];
 
         public virtual void InputFromKeyboard()
         {
-            Console.WriteLine("Enter elements of 2d matrix (3x3):");
+            Console.WriteLine("Enter elements of 2D matrix (3x3):");
             for (int i = 0; i < Rows; i++)
             {
                 for (int j = 0; j < Cols; j++)
                 {
-                    Console.Write($"matrix[{i},{j}] = ");
-                    matrix[i, j] = Convert.ToInt32(Console.ReadLine());
+                    int value;
+                    while (true)
+                    {
+                        Console.Write($"matrix[{i},{j}] = ");
+                        if (int.TryParse(Console.ReadLine(), out value))
+                        {
+                            _matrix[i, j] = value;
+                            break;
+                        }
+                        Console.WriteLine("Невірний ввід! Будь ласка, введіть ціле число.");
+                    }
                 }
             }
         }
@@ -41,16 +50,16 @@ namespace LabWork
         {
             for (int i = 0; i < Rows; i++)
             for (int j = 0; j < Cols; j++)
-                matrix[i, j] = Randomizer.Next(0, 100);
+                _matrix[i, j] = Randomizer.Next(0, 100);
         }
 
         public virtual int MinElement()
         {
-            int min = matrix[0, 0];
+            int min = _matrix[0, 0];
             for (int i = 0; i < Rows; i++)
             for (int j = 0; j < Cols; j++)
-                if (matrix[i, j] < min)
-                    min = matrix[i, j];
+                if (_matrix[i, j] < min)
+                    min = _matrix[i, j];
             return min;
         }
 
@@ -60,7 +69,7 @@ namespace LabWork
             for (int i = 0; i < Rows; i++)
             {
                 for (int j = 0; j < Cols; j++)
-                    Console.Write(matrix[i, j] + "\t");
+                    Console.Write(_matrix[i, j] + "\t");
                 Console.WriteLine();
             }
         }
@@ -68,7 +77,7 @@ namespace LabWork
 
     class Matrix3D : Matrix2D
     {
-        private int[,,] matrix3D = new int[3, 3, 3];
+        private readonly int[,,] _matrix3D = new int[3, 3, 3];
 
         public override void InputFromKeyboard()
         {
@@ -77,8 +86,17 @@ namespace LabWork
             for (int j = 0; j < 3; j++)
             for (int k = 0; k < 3; k++)
             {
-                Console.Write($"matrix[{i},{j},{k}] = ");
-                matrix3D[i, j, k] = Convert.ToInt32(Console.ReadLine());
+                int value;
+                while (true)
+                {
+                    Console.Write($"matrix[{i},{j},{k}] = ");
+                    if (int.TryParse(Console.ReadLine(), out value))
+                    {
+                        _matrix3D[i, j, k] = value;
+                        break;
+                    }
+                    Console.WriteLine("Невірний ввід! Будь ласка, введіть ціле число.");
+                }
             }
         }
 
@@ -87,17 +105,17 @@ namespace LabWork
             for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
             for (int k = 0; k < 3; k++)
-                matrix3D[i, j, k] = Randomizer.Next(0, 100);
+                _matrix3D[i, j, k] = Randomizer.Next(0, 100);
         }
 
         public override int MinElement()
         {
-            int min = matrix3D[0, 0, 0];
+            int min = _matrix3D[0, 0, 0];
             for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
             for (int k = 0; k < 3; k++)
-                if (matrix3D[i, j, k] < min)
-                    min = matrix3D[i, j, k];
+                if (_matrix3D[i, j, k] < min)
+                    min = _matrix3D[i, j, k];
             return min;
         }
 
@@ -110,7 +128,7 @@ namespace LabWork
                 for (int j = 0; j < 3; j++)
                 {
                     for (int k = 0; k < 3; k++)
-                        Console.Write(matrix3D[i, j, k] + "\t");
+                        Console.Write(_matrix3D[i, j, k] + "\t");
                     Console.WriteLine();
                 }
                 Console.WriteLine();
